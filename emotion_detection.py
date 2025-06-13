@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 def emotion_detector(text_to_analyse):
     url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
     header = {
@@ -12,8 +13,21 @@ def emotion_detector(text_to_analyse):
         } 
     }
     response = requests.post(url, json = myobj, headers=header)
-    
-    return response.text
+    response_text = json.loads(response.text)
+
+    emotions = response_text['emotionPredictions'][0]['emotion']
+    dominant_emotion = max(emotions, key=emotions.get)
+    output = {
+        'anger': emotions['anger'],
+        'disgust': emotions['disgust'],
+        'fear': emotions['fear'],
+        'joy': emotions['joy'],
+        'sadness': emotions['sadness'],
+        'dominant_emotion': dominant_emotion,
+    }
+
+    return json.dumps(output, indent=2)
+
 
 def main():
     print(emotion_detector("I'd like to go to the wilderness, and never come back!"))
