@@ -25,12 +25,12 @@ def emotion_detector(text_to_analyse):
         'sadness': emotions['sadness'],
         'dominant_emotion': dominant_emotion,
     }
-
-    return json.dumps(output, indent=2)
+    
+    return output
 
 
 def main():
-    print(emotion_detector("I'd like to go to the wilderness, and never come back!"))
+    print(json.dumps(emotion_detector("I'd like to go to the wilderness, and never come back!"), indent=2))
 
 if __name__ == "__main__":
     main()
